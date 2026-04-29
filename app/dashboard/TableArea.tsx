@@ -5,13 +5,14 @@ import { Task } from "./types";
 import Button from "../components/Button";
 import TableHeader from "./components/TableHeader";
 import { Column } from "./types";
+import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 
 const TableArea = () => {
-const columns: Column[] = [
-  { key: "date", label: "Date" },
-  { key: "hours", label: "Hours" },
-  { key: "status", label: "Status" },
-];
+  const columns: Column[] = [
+    { key: "date", label: "Date" },
+    { key: "hours", label: "Hours" },
+    { key: "status", label: "Status" },
+  ];
 
   const [list, setList] = useState<Task[]>([
     { id: 1, date: "2026-04-01", hours: 2, status: "Done" },
@@ -26,12 +27,23 @@ const columns: Column[] = [
     status: "Not Started",
   });
 
+  const [editingId, setEditingId] = useState<number | null>(null);
+
+  const handleDelete = (id: number) => {
+    setList((prev) => prev.filter((item) => item.id !== id));
+  };
+
+  const handleEdit = (id: number) => {
+    setEditingId(id);
+    alert("Edit functionality not implemented");
+  };
   return (
     <div className="w-1/2 p-6">
       <div className="bg-white shadow-lg rounded-xl p-5 space-y-4">
-
         {/* Header */}
         <TableHeader columns={columns} />
+        <div />
+        <div />
 
         {/* Rows */}
         <div className="space-y-2">
@@ -39,9 +51,44 @@ const columns: Column[] = [
             <div
               key={item.id}
               className="grid items-center p-2 rounded hover:bg-gray-50 border"
-              style={{ gridTemplateColumns: `repeat(${columns.length}, 1fr)` }}
+              style={{
+                gridTemplateColumns: `repeat(${columns.length + 1}, 1fr)`,
+              }}
             >
-              <TableRow item={item} mode="view" columns={columns} />
+              <TableRow
+                item={item}
+                mode={editingId === item.id ? "edit" : "view"}
+                columns={columns}
+                icon={
+                  <span className="mr-2 cursor-pointer text-red-500">
+                    <span className="" onClick={() => handleDelete(item.id)}>
+                      <DeleteOutlined />
+                    </span>
+                    <span className="ml-2 cursor-pointer text-blue-500">
+                      <span className="" onClick={() => handleEdit(item.id)}>
+                        <EditOutlined />
+                      </span>
+                    </span>
+                  </span>
+                }
+                onChange={(field, value) => {
+                  if (editingId === item.id) {
+                    setList((prev) =>
+                      prev.map((i) =>
+                        i.id === item.id ? { ...i, [field]: value } : i,
+                      ),
+                    );
+                  }
+                }}
+              />
+              {editingId === item.id && (
+                <Button
+                  className="ml-2 bg-red-500 hover:bg-red-600 transition text-white px-2 py-1 rounded"
+                  onClick={() => setEditingId(null)}
+                >
+                  Save
+                </Button>
+              )}
             </div>
           ))}
         </div>
@@ -78,7 +125,6 @@ const columns: Column[] = [
             Add Task
           </Button>
         </div>
-
       </div>
     </div>
   );

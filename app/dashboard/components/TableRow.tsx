@@ -9,13 +9,15 @@ type Column = {
 type Props = {
   item: Task;
   mode?: "view" | "edit";
-   columns: Column[]; 
+  columns: Column[];
+  icon?: React.ReactNode;
   onChange?: (field: keyof Task, value: string | number) => void;
 };
 
-const TableRow = ({ item, mode = "view", onChange, columns }: Props) => {
+const TableRow = ({ item, mode = "view", onChange, columns , icon}: Props) => {
   return (
     <div className="contents">
+      {icon && <span className="mr-2">{icon}</span>}
       {/* Hours */}
       {mode === "edit" ? (
         <input
