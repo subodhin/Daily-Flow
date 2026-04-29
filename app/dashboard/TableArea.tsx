@@ -35,7 +35,7 @@ const TableArea = () => {
 
   const handleEdit = (id: number) => {
     setEditingId(id);
-    alert("Edit functionality not implemented");
+   // alert("Edit functionality not implemented");
   };
   return (
     <div className="w-1/2 p-6">
@@ -59,18 +59,18 @@ const TableArea = () => {
                 item={item}
                 mode={editingId === item.id ? "edit" : "view"}
                 columns={columns}
-                icon={
-                  <span className="mr-2 cursor-pointer text-red-500">
-                    <span className="" onClick={() => handleDelete(item.id)}>
-                      <DeleteOutlined />
-                    </span>
-                    <span className="ml-2 cursor-pointer text-blue-500">
-                      <span className="" onClick={() => handleEdit(item.id)}>
-                        <EditOutlined />
-                      </span>
-                    </span>
-                  </span>
-                }
+                // icon={
+                //   <span className="mr-2 cursor-pointer text-red-500">
+                //     <span className="" onClick={() => handleDelete(item.id)}>
+                //       <DeleteOutlined />
+                //     </span>
+                //     <span className="ml-2 cursor-pointer text-blue-500">
+                //       <span className="" onClick={() => handleEdit(item.id)}>
+                //         <EditOutlined />
+                //       </span>
+                //     </span>
+                //   </span>
+                // }
                 onChange={(field, value) => {
                   if (editingId === item.id) {
                     setList((prev) =>
@@ -81,15 +81,39 @@ const TableArea = () => {
                   }
                 }}
               />
-              {editingId === item.id && (
-                <Button
-                  className="ml-2 bg-red-500 hover:bg-red-600 transition text-white px-2 py-1 rounded"
-                  onClick={() => setEditingId(null)}
-                >
-                  Save
-                </Button>
-              )}
-            </div>
+
+                <div className="flex justify-end items-center gap-3 pr-2">
+    {/* Edit / Save */}
+    {editingId === item.id ? (
+      <button
+        className="text-green-600 text-sm"
+        onClick={() => setEditingId(null)}
+      >
+        Save
+      </button>
+    ) : (
+      <span
+        className="cursor-pointer text-blue-500 hover:scale-110 transition"
+        onClick={() => setEditingId(item.id)}
+      >
+        <EditOutlined />
+      </span>
+    )}
+
+    {/* Delete */}
+    <span
+      className="cursor-pointer text-red-500 hover:scale-110 transition"
+      onClick={() => handleDelete(item.id)}
+    >
+      <DeleteOutlined />
+    </span>
+  </div>
+</div>
+
+
+
+             
+          
           ))}
         </div>
 
