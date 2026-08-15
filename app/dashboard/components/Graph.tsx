@@ -1,9 +1,15 @@
 import React from 'react'
 
 const Graph = () => {
+
+
+
   return (
     <div>
-      line chrt goes here!
+      line chart goes here!
+
+      
+      
     </div>
   )
 }
